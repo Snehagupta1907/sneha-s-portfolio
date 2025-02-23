@@ -1,100 +1,463 @@
-import Image from "next/image";
+"use client";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { Float, Stars, OrbitControls } from "@react-three/drei";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  ExternalLink,
+  ChevronRight,
+  ChevronLeft,
+  Code2,
+  Globe,
+  Server,
+  Cpu,
+} from "lucide-react";
+import ExperienceSection from "@/components/Experience";
+
+const GeometricScene = () => {
+  return (
+    <>
+      <Stars
+        radius={100}
+        depth={50}
+        count={5000}
+        factor={4}
+        saturation={0}
+        fade
+        speed={1}
+      />
+      <Float speed={1.5} rotationIntensity={1} floatIntensity={2}>
+        <mesh>
+          <octahedronGeometry args={[2, 0]} />
+          <meshStandardMaterial
+            color="#4f46e5"
+            wireframe={true}
+            transparent={true}
+            opacity={0.8}
+          />
+        </mesh>
+      </Float>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+    </>
+  );
+};
+
+const projects = [
+  {
+    title: "Roomzy",
+    description:
+      "A full-stack platform to find ideal roommates or affordable rooms.",
+    tech: ["ReactJS", "Node.js", "MongoDB", "Telegram Miniapp", "Express.js"],
+    image: "/images/roomzy.jpeg",
+    github: "https://github.com/Snehagupta1907/Roomzy",
+    live: "https://roomzy-axja.vercel.app/",
+  },
+  {
+    title: "Trix.ai",
+    description:
+      "Your personal AI-powered crypto and DeFi guide for trading, NFTs, and tokens.",
+    tech: ["Next.js", "Openai sdk", "Solidity", "Tailwind","Ethers.js"],
+    image: "/images/trix.jpeg",
+    github: "",
+    live: "https://trix-ai.vercel.app/",
+  },
+  {
+    title: "Prophecy Pool",
+    description:
+      "A decentralized betting platform for binary predictions on user-created pools.",
+    tech: ["Next.js", "Ethers/Wagmi", "Solidity", "Tailwind/Framer motion"],
+    image: "/images/prophecy.jpeg",
+    github: "",
+    live: "https://monksagentnetwork-l5nz.vercel.app",
+  },
+  {
+    title: "Winfinity",
+    description:
+      "A modern gaming platform blending early 2000s nostalgia with ETH staking and rewards.",
+    tech: ["Next.js", "Express", "MongoDB", "Telegram Miniapp"],
+    image: "/images/winfinity.jpeg",
+    github: "",
+    live: "https://winfinity-ancient8.vercel.app",
+  },
+  // {
+  //   title: "Weather Forecast App",
+  //   description:
+  //     "Weather application with real-time updates, location-based forecasts, and interactive maps.",
+  //   tech: ["React", "Node.js", "OpenWeather API", "Mapbox"],
+  //   image: "/api/placeholder/600/400",
+  //   github: "#",
+  //   live: "#",
+  // },
+  // {
+  //   title: "Blockchain Explorer",
+  //   description:
+  //     "Cryptocurrency blockchain explorer with transaction tracking and wallet management.",
+  //   tech: ["Next.js", "Web3.js", "Ethereum", "TypeScript"],
+  //   image: "/api/placeholder/600/400",
+  //   github: "#",
+  //   live: "#",
+  // },
+];
+
+const skills = [
+  {
+    category: "FullStack",
+    icon: <Globe className="w-6 h-6 mb-4" />,
+    technologies: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Node.js",
+      "Python",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+    ],
+  },
+  {
+    category: "Blockchain",
+    icon: <Server className="w-6 h-6 mb-4" />,
+    technologies: ["Solidity", "Web3.js", "Ethers.js", "Wagmi", "Hardhat"],
+  },
+  {
+    category: "Machine Learning",
+    icon: <Cpu className="w-6 h-6 mb-4" />,
+    technologies: ["OpenAI", "TensorFlow", "Computer Vision", "Scikit-learn"],
+  },
+];
+
+
+const ProjectCard = ({ project }) => (
+  <div className="bg-white/5 backdrop-blur-lg rounded-xl overflow-hidden hover:bg-white/10 transition-all">
+    <img
+      src={project.image}
+      alt={project.title}
+      className="w-full h-48 object-cover"
+    />
+    <div className="p-6">
+      <h3 className="text-xl font-bold mb-3 text-white">{project.title}</h3>
+      <p className="text-gray-400 mb-4 line-clamp-2">{project.description}</p>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {project.tech.map((tech, techIndex) => (
+          <span
+            key={techIndex}
+            className="px-3 py-1 bg-indigo-500/20 rounded-full text-sm text-indigo-300"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+      <div className="flex gap-4">
+        {project.github && (
+          <a
+            href={project.github}
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+          >
+            <Github className="w-5 h-5" />
+            Code
+          </a>
+        )}
+        <a
+          href={project.live}
+          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+        >
+          <ExternalLink className="w-5 h-5" />
+          Live Demo
+        </a>
+      </div>
+    </div>
+  </div>
+);
+
+const ProjectsGrid = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const projectsPerPage = 3;
+  const totalPages = Math.ceil(projects.length / projectsPerPage);
+
+  const currentProjects = projects.slice(
+    currentPage * projectsPerPage,
+    (currentPage + 1) * projectsPerPage
+  );
+
+  return (
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+        {currentProjects.map((project, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
+            <ProjectCard project={project} />
+          </motion.div>
+        ))}
+      </div>
+      <div className="flex justify-center gap-4">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(0, prev - 1))}
+          disabled={currentPage === 0}
+          className="p-2 rounded-full bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <div className="flex items-center gap-2">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                currentPage === index ? "bg-indigo-500 w-4" : "bg-white/20"
+              }`}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
+          }
+          disabled={currentPage === totalPages - 1}
+          className="p-2 rounded-full bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
+  return (
+    <div ref={containerRef} className="bg-[#0a0a0a] min-h-screen">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <span className="text-2xl font-bold text-white">Sneha Gupta</span>
+            <div className="space-x-8">
+              <a
+                href="#about"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                About
+              </a>
+              <a
+                href="#experience"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Experience
+              </a>
+              <a
+                href="#projects"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Projects
+              </a>
+              <a
+                href="#contact"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center">
+        <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
+          <Canvas>
+            <GeometricScene />
+            <OrbitControls enableZoom={false} />
+          </Canvas>
+        </motion.div>
+
+        <div className="relative z-10 text-center px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex items-center justify-center gap-3 mb-6"
+          >
+            <Code2 className="w-8 h-8 text-indigo-400" />
+            <h1 className="text-5xl md:text-7xl font-bold text-white">
+              Full Stack Developer
+            </h1>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
+          >
+            Building modern web applications with a focus on performance and
+            user experience
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex justify-center gap-4"
+          >
+            <a
+              href="#projects"
+              className="px-8 py-3 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition-colors inline-flex items-center gap-2"
+            >
+              <Code2 className="w-5 h-5" />
+              View Projects
+            </a>
+            <a
+              href="https://t.me/sneha_1907"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 transition-colors inline-flex items-center gap-2"
+            >
+              <Mail className="w-5 h-5" />
+              Contact Me
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="about" className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl md:text-4xl font-bold mb-16 text-center text-white"
+          >
+            Skills & Technologies
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {skills.map((skill, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white/5 backdrop-blur-lg rounded-xl p-6 hover:bg-white/10 transition-all text-center"
+              >
+                <div className="flex justify-center text-indigo-400">
+                  {skill.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-white">
+                  {skill.category}
+                </h3>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {skill.technologies.map((tech, techIndex) => (
+                    <span
+                      key={techIndex}
+                      className="px-3 py-1 bg-white/10 rounded-full text-sm text-white"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+
+      <ExperienceSection />
+
+      {/* Projects Section */}
+      <section
+        id="projects"
+        className="py-20 px-6 bg-gradient-to-b from-black/20 to-black/40"
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl md:text-4xl font-bold mb-16 text-center text-white"
+          >
+            Featured Projects
+          </motion.h2>
+          <ProjectsGrid />
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl md:text-4xl font-bold mb-8 text-white"
+          >
+            Let&apos;s Work Together
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-xl text-gray-300 mb-12"
+          >
+            Open for freelance opportunities and interesting projects
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex justify-center items-center gap-6"
+          >
+            <a
+              href="mailto:snehagupta98930@gmail.com"
+              className="px-8 py-3 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition-colors inline-flex items-center gap-2"
+            >
+              <Mail className="w-5 h-5" />
+              Email Me
+            </a>
+            <a
+              href="https://www.linkedin.com/in/sneha-gupta-239aa1201"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 transition-colors inline-flex items-center gap-2"
+            >
+              <Linkedin className="w-5 h-5" />
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/Snehagupta1907"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 transition-colors inline-flex items-center gap-2"
+            >
+              <Github className="w-5 h-5" />
+              GitHub
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-6 bg-black/20">
+        <div className="max-w-7xl mx-auto text-center text-gray-400">
+          <p>© {new Date().getFullYear()} Sneha Gupta. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );
