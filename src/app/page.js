@@ -80,7 +80,7 @@ const projects = [
       "A modern gaming platform blending early 2000s nostalgia with ETH staking and rewards.",
     tech: ["Next.js", "Express", "MongoDB", "Telegram Miniapp"],
     image: "/images/winfinity.jpeg",
-    github: "",
+    github: "https://github.com/Snehagupta1907/winfinity-ancient8",
     live: "https://winfinity-ancient8.vercel.app",
   },
   // {
