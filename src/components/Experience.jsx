@@ -29,7 +29,7 @@ const experiences = [
   },
   {
     title: "Machine Learning Intern",
-    company: "Seigritech",
+    company: "Segritech",
     companyLink: "https://segritech.com",
     duration: "Jan 2024 - July 2024",
     description:
