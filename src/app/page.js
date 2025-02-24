@@ -65,15 +65,15 @@ const projects = [
     github: "",
     live: "https://trix-ai.vercel.app/",
   },
-  // {
-  //   title: "Prophecy Pool",
-  //   description:
-  //     "A decentralized betting platform for binary predictions on user-created pools.",
-  //   tech: ["Next.js", "Ethers/Wagmi", "Solidity", "Tailwind/Framer motion"],
-  //   image: "/images/prophecy.jpeg",
-  //   github: "",
-  //   live: "https://monksagentnetwork-l5nz.vercel.app",
-  // },
+  {
+    title: "Prophecy Pool",
+    description:
+      "A decentralized betting platform for binary predictions on user-created pools.",
+    tech: ["Next.js", "Ethers/Wagmi", "Solidity", "Tailwind/Framer motion"],
+    image: "/images/prophecy.jpeg",
+    github: "",
+    live: "https://monksagentnetwork-l5nz.vercel.app",
+  },
   {
     title: "Winfinity",
     description:
