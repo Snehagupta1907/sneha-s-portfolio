@@ -83,24 +83,24 @@ const projects = [
     github: "https://github.com/Snehagupta1907/winfinity-ancient8",
     live: "https://winfinity-ancient8.vercel.app",
   },
-  // {
-  //   title: "Weather Forecast App",
-  //   description:
-  //     "Weather application with real-time updates, location-based forecasts, and interactive maps.",
-  //   tech: ["React", "Node.js", "OpenWeather API", "Mapbox"],
-  //   image: "/api/placeholder/600/400",
-  //   github: "#",
-  //   live: "#",
-  // },
-  // {
-  //   title: "Blockchain Explorer",
-  //   description:
-  //     "Cryptocurrency blockchain explorer with transaction tracking and wallet management.",
-  //   tech: ["Next.js", "Web3.js", "Ethereum", "TypeScript"],
-  //   image: "/api/placeholder/600/400",
-  //   github: "#",
-  //   live: "#",
-  // },
+  {
+    title: "Flixtube",
+    description:
+      "Video Streaming platform aims to replicate some of the core functionalities of YouTube, allowing users to search and watch videos.",
+    tech: ["React", "Node.js", "Rapid API", "MUI"],
+    image: "/images/flixtube.png",
+    github: "https://github.com/Snehagupta1907/flixtube",
+    live: "https://flixtube19.netlify.app/",
+  },
+  {
+    title: "Vital Fit",
+    description:
+      "This project is a fitness app built using React.js. It leverages the RapidAPI and YouTube API to fetch exercise data and related YouTube videos, respectively. ",
+    tech: ["React.js", "Rapid api", "MUI", "Javascript"],
+    image: "/images/fit.png",
+    github: "https://github.com/Snehagupta1907/Fitness-app",
+    live: "https://fitness-app-five-drab.vercel.app/",
+  },
 ];
 
 const skills = [
@@ -123,7 +123,7 @@ const skills = [
   {
     category: "Blockchain",
     icon: <Server className="w-6 h-6 mb-4" />,
-    technologies: ["Solidity", "Web3.js", "Ethers.js", "Wagmi", "Hardhat"],
+    technologies: ["Solidity", "Web3.js", "Ethers.js", "Wagmi", "Hardhat","Solana web3.js"],
   },
   {
     category: "Machine Learning",
