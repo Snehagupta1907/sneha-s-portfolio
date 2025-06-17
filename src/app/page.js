@@ -56,6 +56,15 @@ const projects = [
     github: "https://github.com/Snehagupta1907/Roomzy",
     live: "https://roomzy-axja.vercel.app/",
   },
+    {
+    title: "Starknet Tic-Tac-Toe",
+    description:
+      "Built this to give a workshop on building onchain game on starknet. 1.6k people attended the worshop.",
+    tech: ["Typescript", "Next.js", "Starknet.js", "Cairo"],
+    image: "/images/tic-tac-toe.jpeg",
+    github: "https://github.com/Snehagupta1907/starknet-tictactoe",
+    live: "https://starknet-tictactoe.vercel.app/",
+  },
   {
     title: "Trix.ai",
     description:

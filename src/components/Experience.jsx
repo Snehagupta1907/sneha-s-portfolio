@@ -11,6 +11,14 @@ const experiences = [
     description:
       "Developing and maintaining scalable web applications and backend systems.",
   },
+    {
+    title: "Dapp Developer",
+    company: "MeowFi",
+    companyLink: "https://meowfi.xyz/links",
+    duration: "Part Time",
+    description:
+      "Working on unified borrowing contract and building utility coin.",
+  },
   {
     title: "FullStack Developer",
     company: "Zoth.io",
