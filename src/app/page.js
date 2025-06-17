@@ -56,7 +56,7 @@ const projects = [
     github: "https://github.com/Snehagupta1907/Roomzy",
     live: "https://roomzy-axja.vercel.app/",
   },
-    {
+  {
     title: "Starknet Tic-Tac-Toe",
     description:
       "Built this to give a workshop on building onchain game on starknet. 1.6k people attended the worshop.",
@@ -69,7 +69,7 @@ const projects = [
     title: "Trix.ai",
     description:
       "Your personal AI-powered crypto and DeFi guide for trading, NFTs, and tokens.",
-    tech: ["Next.js", "Openai sdk", "Solidity", "Tailwind","Ethers.js"],
+    tech: ["Next.js", "Openai sdk", "Solidity", "Tailwind", "Ethers.js"],
     image: "/images/trix.jpeg",
     github: "",
     live: "https://trix-ai.vercel.app/",
@@ -132,7 +132,16 @@ const skills = [
   {
     category: "Blockchain",
     icon: <Server className="w-6 h-6 mb-4" />,
-    technologies: ["Solidity", "Web3.js", "Ethers.js", "Wagmi", "Hardhat","Solana web3.js"],
+    technologies: [
+      "Solidity",
+      "Cairo",
+      "Web3.js",
+      "Ethers.js",
+      "Wagmi",
+      "Starknet.js",
+      "Hardhat",
+      "Solana web3.js",
+    ],
   },
   {
     category: "Machine Learning",
@@ -140,7 +149,6 @@ const skills = [
     technologies: ["OpenAI", "TensorFlow", "Computer Vision", "Scikit-learn"],
   },
 ];
-
 
 const ProjectCard = ({ project }) => (
   <div className="bg-white/5 backdrop-blur-lg rounded-xl overflow-hidden hover:bg-white/10 transition-all">
@@ -306,7 +314,7 @@ export default function Home() {
           >
             <Code2 className="w-8 h-8 text-indigo-400" />
             <h1 className="text-5xl md:text-7xl font-bold text-white">
-             Software Developer
+              Software Developer
             </h1>
           </motion.div>
           <motion.p
@@ -315,8 +323,8 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
           >
-            Building modern applications with a focus on performance and
-            user experience
+            Building modern applications with a focus on performance and user
+            experience
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
