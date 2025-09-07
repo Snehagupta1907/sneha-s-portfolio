@@ -48,6 +48,22 @@ const GeometricScene = () => {
 
 const projects = [
   {
+    title: "Paw Pets (Aptos)",
+    description:
+      "A complete decentralized pet care game on Aptos using Move 2.0 and a modern Next.js frontend.",
+    tech: [
+      "Next.js",
+      "Move 2.0",
+      "Aptos TS SDK",
+      "Framer Motion",
+      "Styled Components",
+      "use-sound",
+    ],
+    image: "/images/paw.jpeg",
+    github: "https://github.com/Snehagupta1907/paw-pets-aptos",
+    live: "https://paw-pets-aptos.vercel.app/",
+  },
+  {
     title: "Roomzy",
     description:
       "A full-stack platform to find ideal roommates or affordable rooms.",
