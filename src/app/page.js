@@ -48,6 +48,15 @@ const GeometricScene = () => {
 
 const projects = [
   {
+    title: "Brother ID",
+    description:
+      "A decentralized identity naming service on Starknet. Register your identity on the blockchain with a unique domain name and put it on auction",
+    tech: ["Cairo", "Vite", "Starknet.id", "Tailwind"],
+    image: "/images/brother.png",
+    github: "",
+    live: "https://brother-domain-9tag.vercel.app/",
+  },
+  {
     title: "Paw Pets (Aptos)",
     description:
       "A complete decentralized pet care game on Aptos using Move 2.0 and a modern Next.js frontend.",
